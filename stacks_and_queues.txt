@@ -1,0 +1,96 @@
+Exercises:
+1. What is the main difference between a stack and a queue?
+
+A stack implements a last-in-first-out order priority collection and provides the two functions: push & pop. Push adds an element to the top of the stack, and pop removes the top-most element. A queue help us arrange events in a way our applications tolerate. The server can use a queue to organize the pending jobs.
+
+2. What are the similarities between stacks and queues?
+
+The similarities between the two are that both of them are linear data types. They are also abstract data types, meaning that their implementation can be in different ways as long as implementations produce the same behavior. They can be implemented using an array or linked list.
+
+3. Imagine you are an engineer tasked with implementing the UNDO and REDO options in a word processor such as Microsoft Word. Which data structure would you use for each option and why?
+
+I would use the stack data structure because in order to support redo, a second stack keeps all the commands you've Undone. So when you pop the undo stack to undo a command, you push the same command you popped into the redo stack. You do the same thing in reverse when you redo a command. You pop the redo stack and push the popped command back into the undo stack.
+
+
+Programming Questions:
+1. Given a string, reverse it using a stack. For example, the string "Bloc!" should be converted to "!colB".
+
+FUNCTION REVERSE(original)
+  INIT a new stack
+  FOR each character in original
+    CALL stack.push WITH character
+  END FOR
+  INIT reversed to empty string
+  WHILE stack is not empty
+    CALL stack.pop RETURNING character
+    APPEND character to reversed
+  END WHILE
+  RETURN reversed
+END FUNCTION
+
+reverse("gnirtS")
+#=> "String"
+
+function reverse(original){
+	var stack = [];
+	for(let i=0; original.length > i; i++){
+		stack.push(original[i])
+	}
+	var reversed = '';
+	while(stack.length > 0){
+		var letter = stack.pop();
+		reversed += letter;
+	}
+return reversed;
+}
+
+2. Implement the pop method of a stack using one queue. Make a FIFO data structure mirror the functionality of a LIFO data structure. Since the internal list is not the same as defined in the checkpoint, it may help to rewrite the pseudocode first.
+
+FUNCTION pop(queue)
+    for(let i=0; queue.length > i; i++){
+        IF i === queue.length THEN
+            let r = queue[i]
+            REMOVE i from queue[i]
+            return r
+        } ELSE {
+            STORE queue[i] to temp
+            REMOVE the element from queue
+            ADD temp to the queue
+        }
+    }
+
+
+function pop(queue){
+for(let i=0; queue.length > i; i++){
+	if(i === queue.length){
+		var r = queue[i];
+		queue.splice(i, 1);
+		return r;
+	} else {
+		var temp = queue[i];
+		queue.splice(i, 1);
+		queue.push(temp);
+		}
+	}
+}
+
+
+class Queue{
+ constructor(...items){
+   //initialize the items in queue
+   this._items = []
+   // enqueuing the items passed to the constructor
+   this.enqueue(...items)
+ }
+
+  enqueue(...items){
+    //push items into the queue
+    items.forEach( item => this._items.push(item) )
+    return this._items;
+  }
+
+  dequeue(count=1){
+    //pull out the first item from the queue
+    this._items.splice(0,count);
+    return this._items;
+  }
